@@ -1,21 +1,41 @@
-# red_blue
+**Red_Blue Project**
 
-The raw data are stored in the *data-raw* folder by source.
+## **About the Project**
 
-The data are cleaned and compiled in Stata using *code*/**data_clean.do**. Each section of this file pulls from *data-raw* (and contains a link to the original source). The intermediate datasets are stored in the *data* folder. These files are merged to create **merged_data.dta** in the *output* folder
+This project aims to elucidate the correlation between various state-level economic outcomes during the COVID-19 pandemic and their voting patterns in the 2020 U.S. Presidential Election. It examines several economic indicators - including changes in the employment population ratio, credit card spending, and personal consumption expenditures, among others - against the proportion of votes received by Joe Biden in each state in 2020.
 
-The data are pulled into R using *code*/**analysis.R**. Regression variables are defined and the regressions are run in this script using functions defined in the *code*/**functions.R** script. Each regression has the change (or percent change) in a CPS/BEA/Opportunity insights/etc. variable as its outcome. The variables are regressed against the 2020 Biden share of the vote.
+The analysis is carried out via two types of regression models: monthly regressions and regressions with year dummies and interaction terms. The final output visualizes these correlations by depicting the coefficients on the Biden vote share for each economic variable over time. These visualizations are rendered using R Shiny.
 
-Two types of regressions are run: monthly regressions, which are stored in *charts*/**coefficients_monthly_regressions.rds** and regressions with year dummies and interaction terms, which are stored in *charts*/**coefficients_year_interactions.rds.**
+## **Project Structure**
 
-The coefficients are visualized in the R Shiny app using *charts*/**app_monthly.R**, *charts*/**app_year_interaction.R**, and *charts*/**app_by_category.R.**
+The raw data, obtained from various sources, are stored in the **`data-raw`** folder.
 
--   **app_monthly.R** plots monthly coefficients on the Biden share for each outcome variable.
+### **Data Cleaning and Compilation**
 
--   **app_year_interaction.R** plots coefficients of the pooled sample with year dummies and year interaction terms with the Biden share for each outcome variable.
+The data cleaning process is conducted in Stata using **`code/data_clean.do`**. Each section of this script pulls from the **`data-raw`** folder, with references to original sources included in the comments. The cleaned, intermediate datasets are stored in the **`data`** folder, while the final merged dataset, **`merged_data.dta`**, is stored in the **`output`** folder.
 
--   **app_by_category** plots the same information as **app_year_interaction.R** but the outcome variables are grouped by source.
+### **Data Analysis**
 
-The order of the code is thus data_clean.do \> analysis.R (helped by functions.R) \> app\_`type`.R where `type` = {monthly, year_interaction, by_category}
+Data analysis is performed in R with the script **`code/analysis.R`**, using functions defined in **`code/functions.R`**. The regression variables are defined, and the regressions are run here. The output of these regressions, namely the change (or percent change) in a CPS/BEA/Opportunity Insights/etc. variable, is stored in two formats:
+
+1.  **`charts/coefficients_monthly_regressions.rds`**: Contains the results of monthly regressions
+
+2.  **`charts/coefficients_year_interactions.rds`**: Contains the results of regressions with year dummies and interaction terms
+
+### **Data Visualization**
+
+The visual representation of the data is done through an R Shiny app using **`charts/app_monthly.R`**, **`charts/app_year_interaction.R`**, and **`charts/app_by_category.R`**.
+
+-   **`app_monthly.R`** : Plots monthly coefficients on the Biden share for each outcome variable
+
+-   **`app_year_interaction.R`** : Plots coefficients of the pooled sample with year dummies and year interaction terms with the Biden share for each outcome variable
+
+-   **`app_by_category.R`** : Plots the same information as **`app_year_interaction.R`**, but the outcome variables are grouped by source
+
+## **Workflow**
+
+The workflow of the code can be summarized as follows: **`data_clean.do`** -\> **`analysis.R`** (utilizing **`functions.R`**) -\> **`app_type.R`** where **`type`** can be one of {monthly, year_interaction, by_category}.
+
+## **Contact**
 
 Don't hesitate to email me if you have any questions!
