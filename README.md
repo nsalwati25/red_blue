@@ -8,4 +8,4 @@ The coefficients are visualized in the R Shiny app using *charts*/**app_monthly.
 
 The order of the code files is thus data_clean.do \> analysis.R \> app_monthly.R and app_year_interaction.R
 
-Don't hesitate to email me if you have any questions! (nasiha.96.salwati\@gmail.com)
+Don't hesitate to email me if you have any questions!
