@@ -24,6 +24,7 @@ Source:IPUMS
 *******************/
 clear all 
 cd  "${data_raw}/cps"
+*note: the raw cps dataset is not in the GitHub repository. please select and download the variables in cps_00045.do from ipums. 
 /*
 do cps_00045.do
 do "${code}/statefip_to_stateabb.do"

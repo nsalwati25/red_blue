@@ -89,26 +89,18 @@ remwork_dummies<- c(dummies, "remw")
 
 
 # Define the list of explanatory variable sets
-explanatory_vars_list_monthly <- list(nocontrols, remwork) #other controls are commented out -- add them back in if needed 
-# death_rate,
-# case_rate_3_month_change,
-# fullvax,
-# oil_state,
-# oil_state_service_share,
-# oi_state_acc_food_share,
-# demo_share,
-# allcontrols)
+explanatory_vars_list_monthly <- list(nocontrols, remwork)  
 
 explanatory_vars_list_pooled <- list(dummies, remwork_dummies) 
 source("code/functions.R")
 
 # Loop over the list and call the regression_analysis function for each set of variables
-for (explanatory_vars in explanatory_vars_list) {
+for (explanatory_vars in explanatory_vars_list_monthly) {
   results <- run_reg_monthly(analysis, explanatory_vars, analysis_vars, "monthly")
 }
 
 # Loop over the list and call the regression_analysis function for each set of variables
-for (explanatory_vars in explanatory_vars_list2) {
+for (explanatory_vars in explanatory_vars_list_pooled) {
   results <- run_reg_year_interaction(analysis, explanatory_vars, analysis_vars, "year_interaction")
 }
 
