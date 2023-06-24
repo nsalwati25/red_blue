@@ -2,7 +2,7 @@
 
 ## **About the Project**
 
-This project aims to elucidate the correlation between various state-level economic outcomes during the COVID-19 pandemic and their voting patterns in the 2020 U.S. Presidential Election. It examines several economic indicators - including changes in the employment population ratio, credit card spending, and personal consumption expenditures, among others - against the proportion of votes received by Joe Biden in each state in 2020.
+This project visualizes the correlation between various state-level economic outcomes during the COVID-19 pandemic and their voting patterns in the 2020 U.S. Presidential Election. It examines several economic indicators - the changes in the employment population ratio, credit card spending, and personal consumption expenditures, among others - against the proportion of votes received by Joe Biden in each state in 2020.
 
 The analysis is carried out via two types of regression models: monthly regressions and regressions with year dummies and interaction terms. The final output visualizes these correlations by depicting the coefficients on the Biden vote share for each economic variable over time. These visualizations are rendered using R Shiny.
 
@@ -16,7 +16,7 @@ The data cleaning process is conducted in Stata using **`code/data_clean.do`**. 
 
 ### **Data Analysis**
 
-Data analysis is performed in R with the script **`code/analysis.R`**, using functions defined in **`code/functions.R`**. The regression variables are defined, and the regressions are run here. The output of these regressions, namely the change (or percent change) in a CPS/BEA/Opportunity Insights/etc. variable, is stored in two formats:
+Data analysis is performed in R with the script **`code/analysis.R`**, using functions defined in **`code/functions.R`**. The **`code/analysis.R`** file reads in **`merged_data.dta`** defines regression variables, runs regressions, and stores the output in data sets in the **`charts`** folder. The output of these regressions, namely the change (or percent change) in a CPS/BEA/Opportunity Insights/etc. variable, is stored in two formats:
 
 1.  **`charts/coefficients_monthly_regressions.rds`**: Contains the results of monthly regressions
 
