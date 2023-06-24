@@ -2,6 +2,10 @@
 setwd("/Users/nasiha/red_blue/red_blue")
 main_dir<- getwd()
 
+librarian::shelf(tidyverse, tsibble, lubridate, glue, TimTeaFan/dplyover, zoo, TTR, fs, gt, openxlsx, 
+                 snakecase, rlang, fredr, BrookingsInstitution/ggbrookings, ipumsr, here, haven, broom)
+
+
 # 1. Load necessary libraries
 library(shiny)
 library(ggplot2)
