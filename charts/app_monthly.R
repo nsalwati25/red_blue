@@ -1,9 +1,12 @@
+#Set the working directory to the red_blue folder here
+setwd("/Users/nasiha/red_blue/red_blue")
+main_dir<- getwd()
 
 librarian::shelf(tidyverse, tsibble, lubridate, glue, TimTeaFan/dplyover, zoo, TTR, fs, gt, openxlsx, 
                  snakecase, rlang, fredr, BrookingsInstitution/ggbrookings, ipumsr, here, haven, broom)
 library(shiny)
 
-coefficients_grouped<-read_rds("/charts/coefficients_monthly.rds")
+coefficients_grouped<-read_rds(glue("{main_dir}/charts/coefficients_monthly.rds"))
 
 # UI
 library(ggplot2)

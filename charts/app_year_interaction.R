@@ -1,13 +1,16 @@
+# Set the working directory to the red_blue folder here
+setwd("/Users/nasiha/red_blue/red_blue")
+main_dir<- getwd()
+
 # 1. Load necessary libraries
 library(shiny)
 library(ggplot2)
 library(dplyr)
 
-
 librarian::shelf(tidyverse, tsibble, lubridate, glue, TimTeaFan/dplyover, zoo, TTR, fs, gt, openxlsx, 
                  snakecase, rlang, fredr, BrookingsInstitution/ggbrookings, ipumsr, here, haven, broom)
 
-results<-read_rds("/charts/coefficients_year_interaction.rds")
+results<-read_rds(glue("{main_dir}/charts/coefficients_year_interaction.rds"))
 
 library(plotly)
 
@@ -18,9 +21,8 @@ ui <- fluidPage(
     sidebarPanel(
       selectInput("outcomeInput", "Select an outcome:", 
                   choices = unique(results$outcome_option)),
-      selectInput("controls_lab", "Select Controls", choices = unique(results$controls_lab)),
+      selectInput("controls_lab", "Select Controls", choices = c("_2020+_2021+_2022+yes_2020+yes_2021+yes_2022")),
       radioButtons("type", "Select type", choices = unique(results$type))
-      
     ),
     mainPanel(
       plotOutput("coefPlot"),
@@ -33,6 +35,9 @@ ui <- fluidPage(
 server <- function(input, output) {
   output$coefPlot <- renderPlot({
     data <- results %>% filter(outcome_option == input$outcomeInput & type == input$type & controls_lab == input$controls_lab)
+    
+    # Filter out NA terms
+    data <- data %>% filter(!is.na(term))
     
     # Manual renaming for coefficient labels
     coef_names <- c("(Intercept)" = "Intercept",

@@ -4,7 +4,7 @@ librarian::shelf(tidyverse, tsibble, lubridate, glue, TimTeaFan/dplyover, zoo, T
 
 #Set the working directory to the red_blue folder here
 setwd("/Users/nasiha/red_blue/red_blue")
-main_dir<- here()
+main_dir<- getwd()
 data_raw<- glue("{main_dir}/data-raw")
 data<- glue("{main_dir}/data")
 
@@ -110,11 +110,14 @@ source("code/functions.R")
 #create dataset of monthly coefficients ---
 coefficients_monthly<-regression_output("monthly")%>%
   filter(term == "share_blue2020")%>%
-  get_labels() %>% 
+  get_labels() 
+
+cleaned<-coefficients_monthly %>% 
   replace_strings_var("outcome_lab", "outcome_lab", 
                       "Pct change from prev year Pct change from Jan 2020", "Pct change from prev year") 
 
-coefficients_monthly$outcome_options<- coefficients_monthly$outcome_lab
+#create outcome_option as being the duplicate of outcome_lab
+cleaned$outcome_option<- cleaned$outcome_lab
 
 types<- c(
   "Change from prev year",
@@ -132,10 +135,11 @@ if (("type" %in% names(cleaned))) {
 
 #remove substrings from outcome_option 
 for (substring in types) {
-  cleaned<- coefficients_monthly %>% 
+  cleaned<- cleaned %>% 
     remove_substring("outcome_option", substring)%>%
     gen_new_var_condition(substring, "type", "outcome_lab")
 }
+
 
 cleaned$outcome_option<- gsub("^\\s*|^,", "", cleaned$outcome_option)
 cleaned$outcome_option<- gsub("^\\s*|^,", "", cleaned$outcome_option)
@@ -149,11 +153,14 @@ write_rds(coefficients_grouped, "charts/coefficients_monthly.rds")
 
 #create dataset of year interaction coefficients ---
 coefficients_year_interaction<-regression_output("year_interaction")%>%
-  get_labels() %>% 
+  get_labels() 
+
+cleaned<-coefficients_year_interaction %>% 
   replace_strings_var("outcome_lab", "outcome_lab", 
                       "Pct change from prev year Pct change from Jan 2020", "Pct change from prev year") 
 
-coefficients_year_interaction$outcome_options<- coefficients_year_interaction$outcome_lab
+#create outcome_option as being the duplicate of outcome_lab
+cleaned$outcome_option<- cleaned$outcome_lab
 
 types<- c(
   "Change from prev year",
@@ -171,10 +178,11 @@ if (("type" %in% names(cleaned))) {
 
 #remove substrings from outcome_option 
 for (substring in types) {
-  cleaned<- coefficients_year_interaction %>% 
+  cleaned<- cleaned %>% 
     remove_substring("outcome_option", substring)%>%
     gen_new_var_condition(substring, "type", "outcome_lab")
 }
+
 
 cleaned$outcome_option<- gsub("^\\s*|^,", "", cleaned$outcome_option)
 cleaned$outcome_option<- gsub("^\\s*|^,", "", cleaned$outcome_option)
@@ -185,12 +193,3 @@ coefficients_grouped$controls_lab[coefficients_grouped$controls_lab == ""] <- "N
 coefficients_grouped$outcome_option_category<- coefficients_grouped$outcome_option
 coefficients_grouped<- coefficients_grouped %>% add_category()
 write_rds(coefficients_grouped, "charts/coefficients_year_interaction.rds")
-
-
-# Load either shiny app (uncomment the one you want to see)-----------------------------------
-#for the monthly coefficients 
- #source("charts/app_monthly.R")
-
-#for the year_interaction coefficients 
- #source("charts/app_year_interaction.R")
-
